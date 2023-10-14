@@ -63,7 +63,7 @@ class Post(models.Model):
     comments = models.ManyToManyField(User, through='Comment', related_name='comments')
 
     def __str__(self):
-        return f'{self.post_title.title()}: {self.post_body}. {self.category}'
+        return f'{self.post_title.title()}: {self.post_body[:100]}... | {self.category}'
 
     def get_absolute_url(self):
         return reverse('post', args=[str(self.id)])

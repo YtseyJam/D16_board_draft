@@ -1,22 +1,19 @@
 {% extends 'flatpages/default.html' %}
 
+
 {% block title %}
-🔥
+📄{{ post.post_title }}
 {% endblock title %}
 
 {% block content %}
-   <h1 style="text-align: center;">Все объявления</h1>
-    <p style="text-align: center;">постов: {{ posts|length }}</p>
 
-
-   {% for post in posts %}
-    <p><a href="{% url 'post' post.id %}"><strong>{{ post.post_title }}</strong></a></p>
+    <h1 style="text-align: center;"><p><strong>{{ post.post_title }}</strong></p></h1>
+    <hr />
    <p>  {{ post.post_body | safe }}</p>  {# | safe позволяет рендерить as-is #}
        <strong>Автор: </strong>{{ post.author.user }}
                <strong>🕗</strong>{{ post.post_datetime|date:'d M' }}
             <strong>Категория</strong>
     {{post.category.get_name_display}}
        <hr />
-{% endfor %}
 
 {% endblock content %}
