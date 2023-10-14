@@ -1,0 +1,18 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+🔥
+{% endblock title %}
+
+{% block content %}
+   <h1 style="text-align: center;">"The Board"</h1>
+    <p style="text-align: center;">Amount: {{ posts|length }}</p>
+
+   {% for post in posts %}
+    <p>{{ post.post_title }}</p>
+   <p>{{ post.post_body | safe }}</p>  {# | safe позволяет рендерить as-is #}
+    {{post.category.get_name_display}}
+       <hr />
+{% endfor %}
+
+{% endblock content %}
