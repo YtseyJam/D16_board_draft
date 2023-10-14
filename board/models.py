@@ -46,19 +46,21 @@ class Category(models.Model):
     def __str__(self):
         return dict(self.CATEGORY_CHOICES)[self.name]
 
+
 class Post(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     post_datetime = models.DateTimeField(auto_now_add=True)
-    post_title = models.CharField(max_length=200, help_text='title of the post')
+    post_title = models.CharField(max_length=200)
     post_body = RichTextUploadingField(config_name='default', external_plugin_resources=[(
         'youtube',
         '/static/var/ckeditor/ckeditor/plugins/youtube/',
         'plugin.js',
     )],
-    )
+                                       )
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts')
     slug = models.SlugField(default='', blank=True)
+    comments = models.ManyToManyField(User, through='Comment', related_name='comments')
 
     def __str__(self):
         return f'{self.post_title.title()}: {self.post_body}. {self.category}'
@@ -70,8 +72,9 @@ class Post(models.Model):
         self.slug = slugify(self.post_title)
         super().save(*args, **kwargs)
 
+
 class Comment(models.Model):
     text = models.TextField()
-    datetime = models.DateTimeField(auto_now_add = True)
-    post = models.ForeignKey(Post, on_delete = models.CASCADE)
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    datetime = models.DateTimeField(auto_now_add=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)

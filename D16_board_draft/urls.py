@@ -24,11 +24,15 @@ from board import views as board_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),
+
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('pages/', include('django.contrib.flatpages.urls')),
     path('board/', include('board.urls')),
 
-    path('add/post', board_views.add_post, name='add_post'),
-    path('edit/post/<int:pk>/', board_views.edit_post, name='edit_post'),
+    path('board/post/add', board_views.add_post, name='add_post'),
+    path('board/post/edit/<int:pk>/', board_views.edit_post, name='edit_post'),
+    path('board/post/<int:pk>/comment/', board_views.add_comment, name='add_comment'),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
