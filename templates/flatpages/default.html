@@ -54,7 +54,7 @@
 
 <ul>
     {% if user.is_authenticated %}
-<li class="nav-item" style="text-align: right;"><a class="nav-link" >Hello, {{ user.username }}!</a></li>
+<li class="nav-item" style="text-align: right;"><a class="nav-link" href="{% url 'profile' %}">Hello, {{ user.username }}!</a></li>
 
 </ul>
         <ul>

@@ -18,26 +18,24 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from board.views import PostDetail
+from board.views import PostDetail, profile, delete_comment
 from board import views as board_views
 
-
-
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/', include('accounts.urls')),
-    # path('accounts/', include('allauth.urls')),
+                  path('admin/', admin.site.urls),
+                  # path('accounts/', include('django.contrib.auth.urls')),
+                  # path('accounts/', include('accounts.urls')),
+                  path('accounts/', include('allauth.urls')),
+                  path('accounts/profile/', profile, name='profile'),
 
+                  path('ckeditor/', include('ckeditor_uploader.urls')),
+                  path('pages/', include('django.contrib.flatpages.urls')),
+                  path('board/', include('board.urls')),
 
-    path('ckeditor/', include('ckeditor_uploader.urls')),
-    path('pages/', include('django.contrib.flatpages.urls')),
-    path('board/', include('board.urls')),
+                  path('board/post/<int:pk>/', PostDetail.as_view(), name='post'),
+                  path('board/post/add', board_views.add_post, name='add_post'),
+                  path('board/post/edit/<int:pk>/', board_views.edit_post, name='edit_post'),
+                  path('board/post/<int:pk>/comment/', board_views.add_comment, name='add_comment'),
+                  path('comment/delete/<int:pk>/', delete_comment, name='delete_comment'),
 
-    path('board/post/<int:pk>/', PostDetail.as_view(), name='post'),
-    path('board/post/add', board_views.add_post, name='add_post'),
-    path('board/post/edit/<int:pk>/', board_views.edit_post, name='edit_post'),
-    path('board/post/<int:pk>/comment/', board_views.add_comment, name='add_comment'),
-
-
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -26,26 +26,24 @@ class SignUpForm(UserCreationForm):
 class CustomSignupForm(SignupForm):
     def save(self, request):
         user = super().save(request)
-        registered = Group.objects.get(name="users")
-        user.groups.add(registered)
-        Author.objects.create(user=user)
+        # registered = Group.objects.get(name="users")
+        # user.groups.add(registered)
+
+        subject = 'Добро пожаловать на гильдейскую доску объявлений!'
+        text = f'{user.username}, вы успешно зарегистрировались на сайте!'
+        html = (
+            f'<b>{user.username}</b>, вы успешно зарегистрировались на '
+            f'<a href="http://127.0.0.1:8000/board">сайте</a>!'
+        )
+        msg = EmailMultiAlternatives(
+            subject=subject, body=text, from_email=None, to=[user.email]
+        )
+        msg.attach_alternative(html, "text/html")
+        msg.send()
+
+        mail_managers(
+            subject='Новый пользователь!',
+            message=f'Пользователь {user.username} успешно зарегистрировался на сайте!'
+        )
+
         return user
-        #
-        # subject = 'Добро пожаловать на гильдейскую доску объявлений!'
-        # text = f'{user.username}, вы успешно зарегистрировались на сайте!'
-        # html = (
-        #     f'<b>{user.username}</b>, вы успешно зарегистрировались на '
-        #     f'<a href="http://127.0.0.1:8000/board">сайте</a>!'
-        # )
-        # msg = EmailMultiAlternatives(
-        #     subject=subject, body=text, from_email=None, to=[user.email]
-        # )
-        # msg.attach_alternative(html, "text/html")
-        # msg.send()
-        #
-        # mail_managers(
-        #     subject='Новый пользователь!',
-        #     message=f'Пользователь {user.username} успешно зарегистрировался на сайте!'
-        # )
-
-

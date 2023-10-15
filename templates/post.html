@@ -14,6 +14,34 @@
                <strong>🕗</strong>{{ post.post_datetime|date:'d M' }}
             <strong>Категория</strong>
     {{post.category.get_name_display}}
+
+    {% if user.is_authenticated and post.author.user != user %}
+
+        <button>
+        <a class="nav-link" href="{% url 'add_comment' post.id %}">
+            <h6><strong>Откликнуться</strong></h6>
+        </a>
+        </button>
+    {% endif %}
+
+    {% if post.author.user == user %}
+                <button>
+                <a class="nav-link" href="{% url 'edit_post' post.id %}">
+                    <h6><strong>Редактировать</strong></h6>
+                </a>
+                </button>
+    {% endif %}
+
        <hr />
+
+<!-- Шаблон для отображения комментариев -->
+<h2>Отклики</h2>
+<ul>
+  {% for comment in post.comment_set.all %}
+    <li><strong>{{ comment.user }}</strong>: {{ comment.text }} | 🕗{{ comment.datetime|date:' H:i d M Y' }}</li>
+  {% empty %}
+    <li>Никто не откликнулся...</li>
+  {% endfor %}
+</ul>
 
 {% endblock content %}

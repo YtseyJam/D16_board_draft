@@ -8,14 +8,23 @@
    <h1 style="text-align: center;">Все объявления</h1>
     <p style="text-align: center;">постов: {{ posts|length }}</p>
 
-
-   {% for post in posts %}
+{% for post in posts %}
     <p><a href="{% url 'post' post.id %}"><strong>{{ post.post_title }}</strong></a></p>
    <p>  {{ post.post_body | safe }}</p>  {# | safe позволяет рендерить as-is #}
        <strong>Автор: </strong>{{ post.author.user }}
                <strong>🕗</strong>{{ post.post_datetime|date:'d M' }}
             <strong>Категория</strong>
     {{post.category.get_name_display}}
+
+    {% if user.is_authenticated and post.author.user != user %}
+
+        <button>
+        <a class="nav-link" href="{% url 'add_comment' post.id %}">
+            <h6><strong>Откликнуться</strong></h6>
+        </a>
+        </button>
+
+    {% endif %}
        <hr />
 {% endfor %}
 

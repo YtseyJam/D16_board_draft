@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',  # added
     'django.contrib.flatpages',  # added
     'board',
+    'accounts',
 
     'ckeditor',
     'ckeditor_uploader',
@@ -104,7 +105,7 @@ TEMPLATES = [
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    # 'allauth.account.auth_backends.AuthenticationBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 WSGI_APPLICATION = 'D16_board_draft.wsgi.application'
@@ -172,36 +173,36 @@ STATICFILES_DIRS = [
 
 # Logging configuration
 LOGIN_REDIRECT_URL = "/board"
-# ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
-# ACCOUNT_EMAIL_REQUIRED = True
-# ACCOUNT_UNIQUE_EMAIL = True
-# ACCOUNT_USERNAME_REQUIRED = True
-# ACCOUNT_AUTHENTICATION_METHOD = 'email'
-# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 #
 ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
 # #Чтобы allauth распознал нашу форму как ту, что должна выполняться вместо формы по умолчанию
 #
-# SITE_URL = 'http://127.0.0.1:8000'
+SITE_URL = 'http://127.0.0.1:8000'
 #
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # #EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" #-- to console
 #
-# EMAIL_HOST = 'smtp.yandex.ru'
-# EMAIL_PORT = 465
-# EMAIL_HOST_USER = config("EMAIL_HOST_USER")
-# EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
-# EMAIL_USE_TLS = False
-# EMAIL_USE_SSL = True
-# EMAIL_SUBJECT_PREFIX = '[GUILD BOARD]'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_SUBJECT_PREFIX = '[GUILD BOARD]'
 #
-# DEFAULT_FROM_EMAIL = "a-re-a@yandex.ru"
+DEFAULT_FROM_EMAIL = "a-re-a@yandex.ru"
 #
-# SERVER_EMAIL = "a-re-a@yandex.ru"
-# MANAGERS = (
-#     ('Me', 'a-re-a@yandex.ru'),
-# )
-#
-# ADMINS = (
-#     ('Me', 'a-re-a@yandex.ru'),
-# )
+SERVER_EMAIL = "a-re-a@yandex.ru"
+MANAGERS = (
+    ('Me', 'a-re-a@yandex.ru'),
+)
+
+ADMINS = (
+    ('Me', 'a-re-a@yandex.ru'),
+)

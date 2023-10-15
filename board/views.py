@@ -64,8 +64,23 @@ def add_comment(request, pk=None):
 
     return render(request, 'add_comment.html', {'form': form})
 
+@login_required
+def delete_comment(request, pk=None):
+    comment = get_object_or_404(Comment, id=pk)
+    post_author = comment.post.author.user
+    if post_author == request.user or comment.user == request.user:
+        comment.delete()
+    return redirect('profile')
+
 
 class PostDetail(DetailView):
     model = Post
     template_name = 'post.html'
     context_object_name = 'post'
+
+
+@login_required
+def profile(request):
+    user = request.user
+    posts = Post.objects.filter(author=request.user.author).filter(comment__isnull=False).distinct()
+    return render(request, 'profile.html', {'user': user, 'posts': posts})
