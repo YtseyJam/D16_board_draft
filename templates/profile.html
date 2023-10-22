@@ -1,0 +1,39 @@
+{% extends 'flatpages/default.html' %}
+
+
+{% block content %}
+
+    <h1>Мой профиль</h1>
+    <p>Имя пользователя: {{ user.username }}</p>
+    <p>Email: {{ user.email }}</p>
+    <hr />
+
+
+    <h1>Мои отклики:</h1>
+
+{% for post in posts %}
+
+        <h4><a href="{% url 'post' post.id %}">{{ post.post_title }}:<a/></h4>
+        <strong>Категория</strong>
+        {{post.category.get_name_display}}
+
+    <ul>
+    {% for comment in post.comment_set.all %}
+
+        <li><strong>{{ comment.user }}</strong>: {{ comment.text }} | {{ comment.user.email }}</li>
+                {% if post.author.user == user %}
+                    <form action="{% url 'delete_comment' comment.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Удалить</button>
+                    </form>
+                {% endif %}
+    {% endfor %}
+    </ul>
+
+
+{% empty %}
+    <p>У вас нет постов с откликами</p>
+{% endfor %}
+
+
+{% endblock %}

@@ -24,7 +24,18 @@
         </a>
         </button>
 
+    {% elif user.is_authenticated and post.author.user == user %}
+
+        <button>
+        <a class="nav-link" href="{% url 'post' post.id %}">
+            <h6><strong>Это ваше объявление</strong></h6>
+        </a>
+        </button>
+
+
     {% endif %}
+        <strong>Отклики: </strong> {{ post.comment_set.all|length }}
+
        <hr />
 {% endfor %}
 
