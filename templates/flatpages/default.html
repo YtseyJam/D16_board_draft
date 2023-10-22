@@ -47,18 +47,22 @@
 
                  <li class="nav-item">
                 {% if user %}
-                <a class="nav-link" href="{% url 'add_post' %}">Создать объявление</a></li>
+                    {% if not user.is_authenticated %}
+                        <a class="nav-link" href="http://127.0.0.1:8000/accounts/login/">Войдите или зарегистрируйтесь для создания объявлений</a></li>
+                    {% elif user.is_authenticated %}
+                        <a class="nav-link" href="{% url 'add_post' %}">Создать объявление</a></li>
+                    {% endif %}
                 {% endif %}
 
 
 
 <ul>
     {% if user.is_authenticated %}
-<li class="nav-item" style="text-align: right;"><a class="nav-link" href="{% url 'profile' %}">Hello, {{ user.username }}!</a></li>
+<li class="nav-item" style="text-align: right;"><a class="nav-link" href="{% url 'profile' %}">Hello, {{ user.username }}! Войти в ЛК</a></li>
 
 </ul>
         <ul>
-<li class="nav-item" style="text-align: right;"><a class="nav-link" href="http://127.0.0.1:8000/accounts/logout">Logout</a></li>
+<li class="nav-item" style="text-align: right;"><a class="nav-link" href="http://127.0.0.1:8000/accounts/logout">Выйти</a></li>
 </ul>
     {% endif %}
 
@@ -66,7 +70,10 @@
       </div>
     </div>
   </nav>
-
+{#  красивая кнопка для новостной рассылки админами(суперюзерами)#}
+{% if user.is_superuser %}
+    <a href="{% url 'send_newsletter' %}" class="btn btn-primary">Сделать рассылку (admin use only)</a>
+{% endif %}
 
   <!-- Page Content -->
   <div class="container">

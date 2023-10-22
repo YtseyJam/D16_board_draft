@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from board.views import PostDetail, profile, delete_comment
+from board.views import PostDetail, profile, delete_comment, accept_comment, send_newsletter
 from board import views as board_views
 
 urlpatterns = [
@@ -36,6 +36,11 @@ urlpatterns = [
                   path('board/post/add', board_views.add_post, name='add_post'),
                   path('board/post/edit/<int:pk>/', board_views.edit_post, name='edit_post'),
                   path('board/post/<int:pk>/comment/', board_views.add_comment, name='add_comment'),
+
                   path('comment/delete/<int:pk>/', delete_comment, name='delete_comment'),
+                  path('accept_comment/<int:pk>/', accept_comment, name='accept_comment'),
+                  path('send-newsletter/', send_newsletter, name='send_newsletter'),
+
+
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
